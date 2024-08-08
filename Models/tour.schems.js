@@ -6,7 +6,13 @@ const tourSchema = mongoose.Schema({
     country: String,
     price: String,
     duration: String,
-    shortDescription: String
+    shortDescription: String,
+    title: String,
+    durationAndLimit:String,
+    sections: {
+        type: Array,
+        default:[]
+    }
 })
 
 const Tours = mongoose.model("Tours", tourSchema);

@@ -2,8 +2,10 @@ import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import connectDB from "./Database/DbConfig.js";
+
 import userRoutes from "./Routers/user.router.js"
 import tourRoutes from "./Routers/tour.router.js"
+import bookingRoutes from "./Routers/booking.router.js"
 
 
 // Configure dotenv to load environment variables from a .env file
@@ -17,6 +19,8 @@ app.use(express.json()); // Parse incoming JSON requests
 
 app.use("/api/user", userRoutes); // Define a route for user-related operations
 app.use("/api/tour", tourRoutes);
+app.use("/api/booking", bookingRoutes);
+
 
 connectDB(); // Establish connection to the database
 
