@@ -26,7 +26,7 @@ export const getUserDetails = async (req, res) => {
     try {
         const userId = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await Users.findOne({ _id: userId }).select("-_id firstName lastName email");
+        const user = await Users.findOne({ _id: userId }).select("-_id firstName lastName email role");
         const bookings = await Bookings.find({ userId }).select('-_id bookingDetails status');
         
         res.status(200).json({ personalDetails: { user, bookings } });

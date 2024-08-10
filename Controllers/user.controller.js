@@ -37,10 +37,10 @@ export const register = async (req, res) => {
 }
 
 export const accountActivation = async (req, res) => {
-    const { token } = req.body;
+
+    const userId = req.user._id;
+
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        let userId = decoded._id;
         const user = await Users.findOne({ _id: userId });
 
         if (!user) {
@@ -156,19 +156,3 @@ export const changePassword = async (req, res) => {
     res.status(200).json({ message: "Password changed" });
 }
 
-export const addBookingDetails = async (req, res) => {
-    const { token, bookingDetails } = req.body;
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const userId = decoded._id;
-
-        const user = await Users.findOne({ _id:userId });
-        console.log(user);
-        user.upcomingBookings.push(bookingDetails);
-        user.save();
-
-    } catch (error) {
-        console.log(error);
-    } 
-}

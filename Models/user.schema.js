@@ -6,6 +6,10 @@ const userSchema = mongoose.Schema({
     lastName: String,
     email: String,
     password: String,
+    role: {
+        type: String,
+        default:"user"
+    },
     activationStatus: {
         type: Boolean,
         default: false
