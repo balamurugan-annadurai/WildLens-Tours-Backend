@@ -151,7 +151,7 @@ export const deleteReview = async (req, res) => {
 };
 
 const razorpay = new Razorpay({
-    key_id: "rzp_test_gijcvzVIahNMp1",
+    key_id: process.env.RAZORPAY_ID,
     key_secret: process.env.RAZORPAY_KEY,
 });
   
