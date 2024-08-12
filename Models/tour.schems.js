@@ -62,6 +62,7 @@ const tourSchema = mongoose.Schema({
     duration: String,
     shortDescription: String,
     title: String,
+    travellersLimit:Number,
     durationAndLimit: String,
     sections: {
         type: Array,
