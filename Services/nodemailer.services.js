@@ -16,7 +16,7 @@ export const mail = (senderEmail, verificationString) => {
     })
 
     // Generate the password reset link
-    const resetLink = `http://localhost:5173/resetpage/${verificationString}`;
+    const resetLink = `https://wildlens-tours.netlify.app/resetpage/${verificationString}`;
 
     // Email details
     const details = {
@@ -60,7 +60,7 @@ export const verifyMail = (senderEmail, verificationString) => {
     })
 
     // Generate the password reset link
-    const verificationLink = `http://localhost:5173/activation/${verificationString}`;
+    const verificationLink = `https://wildlens-tours.netlify.app/activation/${verificationString}`;
 
     // Email details
     const details = {
