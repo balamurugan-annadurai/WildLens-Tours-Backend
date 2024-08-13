@@ -16,7 +16,7 @@ const authMiddleware = (userRole) => async (req, res,next) => {
 
         const user = await Users.findById(req.user._id);
         if (user.role != userRole) {
-            return res.json({ message: "Access denied" });
+            return res.status(401).json({ message: "Access denied" });
         }
         
         next();

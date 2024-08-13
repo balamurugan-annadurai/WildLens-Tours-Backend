@@ -1,9 +1,10 @@
 import Users from "../Models/user.schema.js"
 import bcrypt from "bcryptjs"
-import { mail, verifyMail } from "../Services/nodemailer.services.js";
+import { mail, sendMail, verifyMail } from "../Services/nodemailer.services.js";
 import randomString from "randomstring"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+import Bookings from './../Models/Booking.schema.js';
 dotenv.config();
 
 
@@ -79,7 +80,7 @@ export const login = async (req, res) => {
 
         const isMatch = await bcrypt.compare(password, user.password);
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-        
+
         if (isMatch) {
             return res.status(200).json({
                 message: "Password matched",
@@ -156,3 +157,38 @@ export const changePassword = async (req, res) => {
     res.status(200).json({ message: "Password changed" });
 }
 
+export const dashboardDatas = async (req, res) => {
+    const userId = req.user._id;
+    try {
+        const users = await Users.find({ role: 'user' }).select('-_id firstName lastName email');
+        const bookings = await Bookings.find();
+        const completedTours = await Bookings.find({ status: "completed" });
+        const pendingTours = await Bookings.find({ status: "pending" });
+
+        const datas = {
+            users,
+            totalUser: users.length,
+            totalBookings: bookings.length,
+            completedTours: completedTours.length,
+            pendingTours: pendingTours.length
+        }
+
+        res.status(200).json({ datas })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const bulkEmails = async (req, res) => {
+    const { subject, content } = req.body;
+    try {
+        const users = await Users.find({ role: 'user' }).select('-_id email');
+        users.forEach(user => {
+            sendMail(user.email, subject, content);
+        })
+        console.log(users);
+        res.status(200).json({ message: "success" });
+    } catch (error) {
+        console.log(error);
+    }
+}

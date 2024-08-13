@@ -107,3 +107,39 @@ export const verifyMail = (senderEmail, verificationString) => {
         }
     })
 }
+
+export const sendMail = (senderEmail, subject,content) => {
+
+    // Create a transporter object
+    const mailTransporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.User,
+            pass: process.env.Pass
+        }
+    })
+
+
+    // Email details
+    const details = {
+        from: process.env.User,
+        to: senderEmail,
+        subject: subject,
+        html: `
+        <h3> Dear user,</h3>
+        
+        <p>${content}<p>
+         
+        <p>Thank You</P>`
+    }
+
+    // Send the email using the transporter
+    mailTransporter.sendMail(details, (err) => {
+        if (err) {
+            console.log("Check credentials")
+        }
+        else {
+            console.log("mail send successfully")
+        }
+    })
+}
